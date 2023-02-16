@@ -4,10 +4,12 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -17,8 +19,8 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static RobotContainer m_robotContainer;
-  public static DigitalInput input = new DigitalInput(0);
-  public static DutyCycleEncoder encoder = new DutyCycleEncoder(input);
+  Compressor comp = new Compressor(0, PneumaticsModuleType.CTREPCM);
+  DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -84,18 +86,18 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     //start of driving part of the code
     double x,y;
+    boolean breaks = false;
     x = m_robotContainer.getXbox().getRightBumper()?-m_robotContainer.getXbox().getRightTriggerAxis():m_robotContainer.getXbox().getRightTriggerAxis();
     y = m_robotContainer.getXbox().getLeftBumper()?-m_robotContainer.getXbox().getLeftTriggerAxis():m_robotContainer.getXbox().getLeftTriggerAxis();
     m_robotContainer.getMechDriveSubsys().update(x, y);
     m_robotContainer.getMechDriveSubsys().spin(m_robotContainer.getXbox().getRightX());
     m_robotContainer.getMechDriveSubsys().drive();
     //end of the driving part of the codeS
-
-    //start of the going up&down part of the code
-    m_robotContainer.getUpAndDown().move(m_robotContainer.getStick().getY());
-    //end of the going up&down part of the code
-
-    System.out.println(encoder.get());
+    //start of breaks
+    if(m_robotContainer.getXbox().getAButtonPressed()) breaks = !breaks;
+    if(breaks) solenoid.set(Value.kForward);
+    else solenoid.set(Value.kReverse);
+    //end of breaks
   }
 
   @Override

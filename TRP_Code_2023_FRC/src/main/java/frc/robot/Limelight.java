@@ -1,5 +1,6 @@
 package frc.robot;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
 public class Limelight{
     private NetworkTableInstance limelightNT;
     public Limelight(){
@@ -17,15 +18,7 @@ public class Limelight{
     public double getTa(){
         return this.limelightNT.getTable("limelight").getEntry("ta").getNumber(9999).doubleValue();
     }
-    public double getDistance() {
-        double targetOffsetAngle_Vertical = getTy();
-        double limelightMountAngleDegrees = 51.5;
-        double limelightLensHeight = 0.73;
-        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
     
-        return (1.7/*height of the target*/ - limelightLensHeight)/Math.tan(angleToGoalRadians);
-    }
     public void logData(){
         System.out.println("***limelight - output***");
         System.out.println("[*] Do we have a target? - " + (getTv() == 1 ? "yes":"no"));

@@ -7,7 +7,6 @@ package frc.robot;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.breaksSubsys;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -15,6 +14,7 @@ import frc.robot.subsystems.mechDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.upAndDown;
+import frc.robot.subsystems.shootingSubsys;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -27,7 +27,9 @@ public class RobotContainer {
   private final mechDrive mDriver = new mechDrive();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController = new XboxController(3);
-  private final breaksSubsys breakSubsys = new breaksSubsys();
+
+  private final shootingSubsys shoot = new shootingSubsys();
+
   private Joystick stick;
   private upAndDown upAndDownSys = new upAndDown();
   private JoystickButton[] buttons = new JoystickButton[12];
@@ -36,10 +38,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-  }
-
-  public breaksSubsys getBreakSys(){
-    return this.breakSubsys;
   }
   public mechDrive getMechDriveSubsys() {
     return this.mDriver;
@@ -52,6 +50,9 @@ public class RobotContainer {
   }
   public upAndDown getUpAndDown() {
     return this.upAndDownSys;
+  }
+  public shootingSubsys getShootingSubsys() {
+    return this.shoot;
   }
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
