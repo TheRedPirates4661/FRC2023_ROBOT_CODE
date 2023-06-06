@@ -26,7 +26,7 @@ public class RobotContainer {
   private final Joystick stick = new Joystick(2);
   private JoystickButton[] buttons = new JoystickButton[12];
 
-  private final CommandPS4Controller farhiPS4 = new CommandPS4Controller(1);
+  private final CommandPS4Controller Controls_PS4 = new CommandPS4Controller(1);
   private final CommandPS4Controller ps4 = new CommandPS4Controller(0);
   private final ArmSubSys arm = new ArmSubSys();
   private final driverSubsys driver = new driverSubsys();
@@ -51,8 +51,8 @@ public class RobotContainer {
     return this.door;   
   }
 
-  public CommandPS4Controller getFarhi() {
-    return this.farhiPS4;
+  public CommandPS4Controller get_Controls_PS4() {
+    return this.Controls_PS4;
   }
 
   public ArmSubSys getArmSubSys(){
@@ -82,10 +82,10 @@ public class RobotContainer {
     // cancelling on release.
     
     //Commands for the controls driver
-    farhiPS4.circle().whileTrue(new DoorCommand(1.5));
-    farhiPS4.square().whileTrue(new DoorCommand(-2.75));
-    farhiPS4.triangle().whileTrue(new ClawCommand(-0.85));
-    farhiPS4.cross().whileTrue(new ClawCommand(0.85));
+    Controls_PS4.circle().whileTrue(new DoorCommand(1.5));
+    Controls_PS4.square().whileTrue(new DoorCommand(-2.75));
+    Controls_PS4.triangle().whileTrue(new ClawCommand(-0.85));
+    Controls_PS4.cross().whileTrue(new ClawCommand(0.85));
     //Commands for the robot driver
     ps4.circle().whileTrue(new ChangeSpeedCommand(0.3));
     ps4.R2().whileTrue(new ChangeSpeedCommand(0.95));
